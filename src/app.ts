@@ -1,5 +1,8 @@
 import * as express from 'express';
 import * as cors from 'cors';
+import { AppDataSource } from './database/data-source';
+import AuthRouter from './routers/auth.router';
+import CallRouter from './routers/call.router';
 
 class App {
   public expressApp: express.Express;
@@ -8,11 +11,12 @@ class App {
     this.expressApp = express();
     this.initialize();
     this.config();
-   
+    this.expressApp.use('/auth', AuthRouter);
+    this.expressApp.use('/call', CallRouter);
   }
 
   private async initialize() {
-    
+    await AppDataSource.initialize();
   }
 
   private config(): void {
